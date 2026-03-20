@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<md:EntityDescriptor xmlns:md="urn:oasis:names:tc:SAML:2.0:metadata" entityID="idp.jingantech.com">
+    <md:IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol">
+        <md:KeyDescriptor use="signing">
+            <ds:KeyInfo xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+                <ds:KeyName>apollo</ds:KeyName>
+                <ds:X509Data>
+                    <ds:X509SubjectName>CN=apollo,OU=R&amp;D,O=RM5 Software Oy,L=Helsinki,ST=Uusimaa,C=FI</ds:X509SubjectName>
+                    <ds:X509Certificate>MIIDVDCCAjygAwIBAgIEcsV5CzANBgkqhkiG9w0BAQsFADBrMQswCQYDVQQGEwJGSTEQMA4GA1UECBMHVXVzaW1hYTERMA8GA1UEBxMISGVsc2lua2kxGDAWBgNVBAoTD1JNNSBTb2Z0d2FyZSBPeTEMMAoGA1UECwwDUiZEMQ8wDQYDVQQDEwZhcG9sbG8wIBcNMjYwMjI4MDUyMzAwWhgPMjA3NjAyMTYwNTIzMDBaMGsxCzAJBgNVBAYTAkZJMRAwDgYDVQQIEwdVdXNpbWFhMREwDwYDVQQHEwhIZWxzaW5raTEYMBYGA1UEChMPUk01IFNvZnR3YXJlIE95MQwwCgYDVQQLDANSJkQxDzANBgNVBAMTBmFwb2xsbzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAKZo+lNM8lSXBT1WYPzNGR6n7uagsT6dQuA+T3qGZzjXdKbLljFVW22qiNZIBp+oikwfUiXNpvjArSddjd9Y+ddlfYjPBLmyTbEG4QlP4KkmevVjFWl/mAnES1vCjHEkoxWpqe0E4t/ccG5ytuVlFkipOkTIPzMKcf1mY2oLXgmrd9mcUmrMpuVqQRNVYx93rGA/klgD/Rwp/+kJeH+aK4Zvm+p5JM4502ZCHr9H3sCNrQuVWtk//qRgNJ4BsO0/OiOsyZFF8FoKjzS8ud+BJ6X/LE7lYmY1oxwBiA53u2JgwugGkjee311JLIbZiuoOCxydV5LsslmH4zjPtnl3BZUCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAbDjkaPdyuiQGruVqArHSNNx8ybG7YdXygBFhzcxu2aT5SvnJBSgFbZS2MrcHDdINL6xg+xUmhMUzxRQFSF2cp6s/UeET8vVub1KQm8uK0G4uAzJJZsG9OPqi+ToDyHmTI7AvRqbJD/M+7HHRsATa0ffTbY0qExFxyOq5vPoZXLJd/31Pd43wdlhai6p+lfrL5mH27Di8hq7JYHKu5wu2zzpxu/BWz4Pqn/OcovGqhTK7yWbl2sPtm6T5qz6lU4fMWm4+BdXMXxQ/SDjlGdQZgPpF0nsoQwcQNvueKWw6ES95erO/9nHJBPfGmVNK4gsypx0m7duqS/sj7EikNXTg0g==</ds:X509Certificate>
+                </ds:X509Data>
+            </ds:KeyInfo>
+        </md:KeyDescriptor>
+        <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress</md:NameIDFormat>
+        <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:transient</md:NameIDFormat>
+        <md:NameIDFormat>urn:oasis:names:tc:SAML:2.0:nameid-format:persistent</md:NameIDFormat>
+        <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</md:NameIDFormat>
+        <md:NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:X509SubjectName</md:NameIDFormat>
+        <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://sso.n.jingantech.com/access-app-sso/v8/web/login/sso?appCode=samltest"/>
+        <md:SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://sso.n.jingantech.com/access-app-sso/v8/web/login/sso?appCode=samltest"/>
+    </md:IDPSSODescriptor>
+</md:EntityDescriptor>

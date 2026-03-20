@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAML SP Demo - 首页</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SAML 2.0 服务提供者演示</h1>
+            <p>SAML SP Demo for NGIAM IDP</p>
+        </header>
+
+        <main>
+            <section class="info-section">
+                <h2>项目说明</h2>
+                <p>本项目是一个 SAML 2.0 服务提供者（SP）演示项目，用于对接 NGIAM IDP 实现单点登录。</p>
+            </section>
+
+            <section class="config-section">
+                <h2>配置信息</h2>
+                <table class="config-table">
+                    <tr>
+                        <th>SP Entity ID</th>
+                        <td th:text="${spEntityId}"></td>
+                    </tr>
+                    <tr>
+                        <th>ACS Location</th>
+                        <td th:text="${spAcsLocation}"></td>
+                    </tr>
+                    <tr>
+                        <th>IDP Entity ID</th>
+                        <td th:text="${idpEntityId}"></td>
+                    </tr>
+                    <tr>
+                        <th>IDP SSO URL</th>
+                        <td th:text="${idpSsoUrl}"></td>
+                    </tr>
+                    <tr>
+                        <th>SP Metadata URL</th>
+                        <td><a href="/saml/metadata" target="_blank" th:text="${spMetadataUrl}"></a></td>
+                    </tr>
+                </table>
+            </section>
+
+            <section class="action-section">
+                <h2>操作</h2>
+                <div class="button-group">
+                    <a href="/user" class="btn btn-primary">SAML 登录</a>
+                    <a href="/saml/metadata" target="_blank" class="btn btn-secondary">查看 SP 元数据</a>
+                </div>
+            </section>
+
+            <section class="flow-section">
+                <h2>认证流程</h2>
+                <ol class="flow-list">
+                    <li>点击"SAML 登录"按钮</li>
+                    <li>系统检测到未登录，重定向到 IDP</li>
+                    <li>IDP 进行用户认证</li>
+                    <li>IDP 生成 SAML Assertion 并 POST 回 SP</li>
+                    <li>SP 验证签名，建立会话，跳转到用户信息页</li>
+                </ol>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Jingantech - NGIAM SAML SP Demo</p>
+        </footer>
+    </div>
+</body>
+</html>

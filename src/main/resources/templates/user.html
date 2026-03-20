@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAML SP Demo - 用户信息</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>SAML 用户信息</h1>
+            <p>SAML User Information</p>
+        </header>
+
+        <main>
+            <!-- 登录状态检查 -->
+            <div sec:authorize="isAuthenticated()">
+                <section class="user-section">
+                    <h2>基本信息</h2>
+                    <table class="user-table">
+                        <tr>
+                            <th>NameID</th>
+                            <td th:text="${nameId}">-</td>
+                        </tr>
+                        <tr>
+                            <th>Registration ID</th>
+                            <td th:text="${registrationId}">-</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section class="user-section">
+                    <h2>常用属性</h2>
+                    <table class="user-table">
+                        <tr>
+                            <th>用户ID</th>
+                            <td th:text="${userId} ?: '-'">-</td>
+                        </tr>
+                        <tr>
+                            <th>租户</th>
+                            <td th:text="${tenant} ?: '-'">-</td>
+                        </tr>
+                        <tr>
+                            <th>用户API Key</th>
+                            <td th:text="${userApiKey} ?: '-'">-</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section class="user-section">
+                    <h2>所有 SAML 属性</h2>
+                    <table class="user-table">
+                        <tr>
+                            <th>属性名</th>
+                            <th>属性值</th>
+                        </tr>
+                        <tr th:each="entry : ${attributes}">
+                            <td th:text="${entry.key}">属性名</td>
+                            <td th:text="${entry.value}">属性值</td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section class="action-section">
+                    <h2>操作</h2>
+                    <div class="button-group">
+                        <a href="/" class="btn btn-secondary">返回首页</a>
+                        <form th:action="@{/logout}" method="post" style="display: inline;">
+                            <button type="submit" class="btn btn-danger">登出</button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 未登录提示 -->
+            <div sec:authorize="!isAuthenticated()">
+                <section class="info-section">
+                    <h2>未登录</h2>
+                    <p>您尚未登录，请先进行 SAML 认证。</p>
+                    <a href="/user" class="btn btn-primary">SAML 登录</a>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Jingantech - NGIAM SAML SP Demo</p>
+        </footer>
+    </div>
+</body>
+</html>

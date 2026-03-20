@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAML SP Metadata</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .metadata-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .metadata-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .metadata-header h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .metadata-header p {
+            color: #7f8c8d;
+        }
+        .metadata-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .metadata-box h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #34495e;
+            font-size: 16px;
+        }
+        .metadata-textarea {
+            width: 100%;
+            height: 350px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            padding: 15px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            resize: vertical;
+            background: #fff;
+            color: #333;
+            line-height: 1.5;
+            white-space: pre;
+            overflow-wrap: normal;
+            overflow-x: auto;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+        }
+        .btn-success {
+            background-color: #27ae60;
+            color: white;
+        }
+        .btn-success:hover {
+            background-color: #219a52;
+        }
+        .alert {
+            padding: 12px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="metadata-container">
+        <div class="metadata-header">
+            <h1>SAML SP 元数据</h1>
+            <p>复制以下 XML 内容到 IDP 配置中建立信任关系</p>
+        </div>
+
+        <div id="copyAlert" class="alert alert-success">
+            ✓ 已复制到剪贴板
+        </div>
+
+        <div class="metadata-box">
+            <h3>SP Metadata XML</h3>
+            <textarea id="metadataContent" class="metadata-textarea" th:text="${metadata}" readonly></textarea>
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="copyToClipboard()">复制全部</button>
+                <button class="btn btn-secondary" onclick="downloadMetadata()">下载 XML</button>
+                <a href="/saml/metadata/raw" class="btn btn-success" target="_blank">原始 XML</a>
+            </div>
+        </div>
+
+        <a href="/" class="back-link">← 返回首页</a>
+    </div>
+
+    <script>
+        function copyToClipboard() {
+            var textarea = document.getElementById('metadataContent');
+            textarea.select();
+            document.execCommand('copy');
+            
+            var alert = document.getElementById('copyAlert');
+            alert.style.display = 'block';
+            setTimeout(function() {
+                alert.style.display = 'none';
+            }, 2000);
+        }
+
+        function downloadMetadata() {
+            var content = document.getElementById('metadataContent').value;
+            var blob = new Blob([content], { type: 'application/xml' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'sp-metadata.xml';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

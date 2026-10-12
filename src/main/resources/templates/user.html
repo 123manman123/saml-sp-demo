@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
@@ -7,85 +7,135 @@
     <title>SAML SP Demo - 用户信息</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>SAML 用户信息</h1>
-            <p>SAML User Information</p>
+<body class="page-user">
+    <div class="site-shell">
+        <div class="page-noise"></div>
+        <header class="hero hero-subpage">
+            <nav class="topbar">
+                <a class="brand" href="/">
+                    <span class="brand-mark">S</span>
+                    <span class="brand-copy">
+                        <strong>SAML SP Demo</strong>
+                        <em>User Session View</em>
+                    </span>
+                </a>
+                <div class="topbar-actions">
+                    <a href="/" class="btn btn-ghost">返回首页</a>
+                </div>
+            </nav>
+
+            <div class="subpage-intro">
+                <p class="eyebrow">Authenticated Identity</p>
+                <h1>登录结果与属性内容，在这里集中查看。</h1>
+                <p>
+                    页面会根据当前认证状态自动展示用户信息、常用业务属性以及完整的 SAML Attribute 集合，便于联调和验收。
+                </p>
+            </div>
         </header>
 
-        <main>
-            <!-- 登录状态检查 -->
-            <div sec:authorize="isAuthenticated()">
-                <section class="user-section">
-                    <h2>基本信息</h2>
-                    <table class="user-table">
-                        <tr>
-                            <th>NameID</th>
-                            <td th:text="${nameId}">-</td>
-                        </tr>
-                        <tr>
-                            <th>Registration ID</th>
-                            <td th:text="${registrationId}">-</td>
-                        </tr>
-                    </table>
+        <main class="content-stack">
+            <div sec:authorize="isAuthenticated()" class="content-stack authenticated-view">
+                <section class="section-block summary-banner">
+                    <div>
+                        <p class="section-kicker">Session</p>
+                        <h2>认证已完成</h2>
+                    </div>
+                    <p>当前会话已建立，你可以核对 NameID、注册信息以及 IdP 返回的业务属性。</p>
                 </section>
 
-                <section class="user-section">
-                    <h2>常用属性</h2>
-                    <table class="user-table">
-                        <tr>
-                            <th>用户ID</th>
-                            <td th:text="${userId} ?: '-'">-</td>
-                        </tr>
-                        <tr>
-                            <th>租户</th>
-                            <td th:text="${tenant} ?: '-'">-</td>
-                        </tr>
-                        <tr>
-                            <th>用户API Key</th>
-                            <td th:text="${userApiKey} ?: '-'">-</td>
-                        </tr>
-                    </table>
+                <section class="data-grid">
+                    <article class="section-block">
+                        <div class="section-heading">
+                            <p class="section-kicker">Overview</p>
+                            <h2>基础信息</h2>
+                        </div>
+                        <dl class="info-grid">
+                            <div>
+                                <dt>NameID</dt>
+                                <dd th:text="${nameId}">-</dd>
+                            </div>
+                            <div>
+                                <dt>Registration ID</dt>
+                                <dd th:text="${registrationId}">-</dd>
+                            </div>
+                        </dl>
+                    </article>
+
+                    <article class="section-block">
+                        <div class="section-heading">
+                            <p class="section-kicker">Business Fields</p>
+                            <h2>常用属性</h2>
+                        </div>
+                        <dl class="info-grid">
+                            <div>
+                                <dt>用户 ID</dt>
+                                <dd th:text="${userId} ?: '-'">-</dd>
+                            </div>
+                            <div>
+                                <dt>租户</dt>
+                                <dd th:text="${tenant} ?: '-'">-</dd>
+                            </div>
+                            <div class="info-grid-wide">
+                                <dt>用户 API Key</dt>
+                                <dd th:text="${userApiKey} ?: '-'">-</dd>
+                            </div>
+                        </dl>
+                    </article>
                 </section>
 
-                <section class="user-section">
-                    <h2>所有 SAML 属性</h2>
-                    <table class="user-table">
-                        <tr>
-                            <th>属性名</th>
-                            <th>属性值</th>
-                        </tr>
-                        <tr th:each="entry : ${attributes}">
-                            <td th:text="${entry.key}">属性名</td>
-                            <td th:text="${entry.value}">属性值</td>
-                        </tr>
-                    </table>
+                <section class="section-block">
+                    <div class="section-heading">
+                        <p class="section-kicker">Attributes</p>
+                        <h2>完整 SAML 属性</h2>
+                    </div>
+                    <div class="table-shell">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>属性名</th>
+                                    <th>属性值</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="entry : ${attributes}">
+                                    <td th:text="${entry.key}">attribute-name</td>
+                                    <td th:text="${entry.value}">attribute-value</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </section>
 
-                <section class="action-section">
-                    <h2>操作</h2>
+                <section class="section-block cta-band">
+                    <div>
+                        <p class="section-kicker">Actions</p>
+                        <h2>继续调试，或安全退出当前会话。</h2>
+                    </div>
                     <div class="button-group">
-                        <a href="/" class="btn btn-secondary">返回首页</a>
-                        <form th:action="@{/logout}" method="post" style="display: inline;">
-                            <button type="submit" class="btn btn-danger">登出</button>
+                        <a href="/saml/metadata" class="btn btn-secondary" target="_blank" rel="noreferrer">查看 Metadata</a>
+                        <form th:action="@{/logout}" method="post" class="inline-form">
+                            <button type="submit" class="btn btn-danger">退出登录</button>
                         </form>
                     </div>
                 </section>
             </div>
 
-            <!-- 未登录提示 -->
             <div sec:authorize="!isAuthenticated()">
-                <section class="info-section">
-                    <h2>未登录</h2>
-                    <p>您尚未登录，请先进行 SAML 认证。</p>
-                    <a href="/user" class="btn btn-primary">SAML 登录</a>
+                <section class="section-block empty-state">
+                    <p class="section-kicker">No Active Session</p>
+                    <h2>当前还没有已登录的用户会话。</h2>
+                    <p>点击下方按钮即可发起 SAML 认证，成功后会在这里展示 IdP 返回的用户信息。</p>
+                    <div class="button-group">
+                        <a href="/user" class="btn btn-primary">立即登录</a>
+                        <a href="/" class="btn btn-secondary">回到首页</a>
+                    </div>
                 </section>
             </div>
         </main>
 
-        <footer>
-            <p>&copy; 2026 Jingantech - NGIAM SAML SP Demo</p>
+        <footer class="site-footer">
+            <p>Jingantech NGIAM SAML SP Demo</p>
+            <p>Identity assertion inspection panel</p>
         </footer>
     </div>
 </body>

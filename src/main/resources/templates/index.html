@@ -1,72 +1,163 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SAML SP Demo - 首页</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
-<body>
-    <div class="container">
-        <header>
-            <h1>SAML 2.0 服务提供者演示</h1>
-            <p>SAML SP Demo for NGIAM IDP</p>
+<body class="page-home">
+    <div class="site-shell">
+        <div class="page-noise"></div>
+        <header class="hero hero-home">
+            <nav class="topbar">
+                <a class="brand" href="/">
+                    <span class="brand-mark">S</span>
+                    <span class="brand-copy">
+                        <strong>SAML SP Demo</strong>
+                        <em>NGIAM Identity Access</em>
+                    </span>
+                </a>
+                <div class="topbar-actions">
+                    <a href="/saml/metadata" class="btn btn-ghost" target="_blank" rel="noreferrer">查看元数据</a>
+                    <a href="/user" class="btn btn-primary">开始 SSO 登录</a>
+                </div>
+            </nav>
+
+            <div class="hero-grid">
+                <section class="hero-copy">
+                    <p class="eyebrow">SAML 2.0 Service Provider</p>
+                    <h1>把 SSO 接入流程、配置要点与登录结果放到同一个清晰界面里。</h1>
+                    <p class="hero-text">
+                        这个演示站点用于对接 NGIAM IdP，帮助你快速验证 SP 配置、发起认证请求，并在登录后查看完整的 SAML 用户属性。
+                    </p>
+                    <div class="button-group">
+                        <a href="/user" class="btn btn-primary">发起 SAML 登录</a>
+                        <a href="/saml/metadata" class="btn btn-secondary" target="_blank" rel="noreferrer">打开 SP Metadata</a>
+                    </div>
+                </section>
+
+                <aside class="hero-panel">
+                    <div class="signal-line">
+                        <span class="signal-dot"></span>
+                        <span>连接状态已就绪</span>
+                    </div>
+                    <dl class="hero-stats">
+                        <div>
+                            <dt>协议版本</dt>
+                            <dd>SAML 2.0</dd>
+                        </div>
+                        <div>
+                            <dt>身份源</dt>
+                            <dd>NGIAM IdP</dd>
+                        </div>
+                        <div>
+                            <dt>登录方式</dt>
+                            <dd>HTTP-POST / SSO</dd>
+                        </div>
+                    </dl>
+                    <div class="hero-code">
+                        <span class="hero-code-label">ACS Endpoint</span>
+                        <code th:text="${spAcsLocation}">http://localhost/login/saml2/sso/ngiam</code>
+                    </div>
+                </aside>
+            </div>
         </header>
 
-        <main>
-            <section class="info-section">
-                <h2>项目说明</h2>
-                <p>本项目是一个 SAML 2.0 服务提供者（SP）演示项目，用于对接 NGIAM IDP 实现单点登录。</p>
+        <main class="content-stack">
+            <section class="section-block intro-strip">
+                <div>
+                    <p class="section-kicker">接入说明</p>
+                    <h2>这里不是一张简单配置表，而是一条完整的调试路径。</h2>
+                </div>
+                <p>
+                    你可以先核对 SP 与 IdP 的关键地址，再导出 Metadata 完成信任配置，最后直接跳转到受保护资源页面验证整条认证链路。
+                </p>
             </section>
 
-            <section class="config-section">
-                <h2>配置信息</h2>
-                <table class="config-table">
-                    <tr>
-                        <th>SP Entity ID</th>
-                        <td th:text="${spEntityId}"></td>
-                    </tr>
-                    <tr>
-                        <th>ACS Location</th>
-                        <td th:text="${spAcsLocation}"></td>
-                    </tr>
-                    <tr>
-                        <th>IDP Entity ID</th>
-                        <td th:text="${idpEntityId}"></td>
-                    </tr>
-                    <tr>
-                        <th>IDP SSO URL</th>
-                        <td th:text="${idpSsoUrl}"></td>
-                    </tr>
-                    <tr>
-                        <th>SP Metadata URL</th>
-                        <td><a href="/saml/metadata" target="_blank" th:text="${spMetadataUrl}"></a></td>
-                    </tr>
-                </table>
-            </section>
-
-            <section class="action-section">
-                <h2>操作</h2>
-                <div class="button-group">
-                    <a href="/user" class="btn btn-primary">SAML 登录</a>
-                    <a href="/saml/metadata" target="_blank" class="btn btn-secondary">查看 SP 元数据</a>
+            <section class="section-block config-layout">
+                <div class="section-heading">
+                    <p class="section-kicker">Configuration</p>
+                    <h2>关键配置一目了然</h2>
+                </div>
+                <div class="definition-grid">
+                    <article class="definition-item">
+                        <span>SP Entity ID</span>
+                        <strong th:text="${spEntityId}">sp-entity-id</strong>
+                    </article>
+                    <article class="definition-item">
+                        <span>ACS Location</span>
+                        <strong th:text="${spAcsLocation}">acs-location</strong>
+                    </article>
+                    <article class="definition-item">
+                        <span>IdP Entity ID</span>
+                        <strong th:text="${idpEntityId}">idp-entity-id</strong>
+                    </article>
+                    <article class="definition-item">
+                        <span>IdP SSO URL</span>
+                        <strong th:text="${idpSsoUrl}">idp-sso-url</strong>
+                    </article>
+                    <article class="definition-item definition-item-wide">
+                        <span>SP Metadata URL</span>
+                        <strong>
+                            <a th:href="${spMetadataUrl}" th:text="${spMetadataUrl}" target="_blank" rel="noreferrer">metadata-url</a>
+                        </strong>
+                    </article>
                 </div>
             </section>
 
-            <section class="flow-section">
-                <h2>认证流程</h2>
-                <ol class="flow-list">
-                    <li>点击"SAML 登录"按钮</li>
-                    <li>系统检测到未登录，重定向到 IDP</li>
-                    <li>IDP 进行用户认证</li>
-                    <li>IDP 生成 SAML Assertion 并 POST 回 SP</li>
-                    <li>SP 验证签名，建立会话，跳转到用户信息页</li>
+            <section class="section-block process-layout">
+                <div class="section-heading">
+                    <p class="section-kicker">Flow</p>
+                    <h2>认证流程</h2>
+                </div>
+                <ol class="timeline">
+                    <li>
+                        <span>01</span>
+                        <div>
+                            <h3>进入受保护资源</h3>
+                            <p>点击“发起 SAML 登录”后访问 `/user` 页面，系统会检测当前会话状态。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span>02</span>
+                        <div>
+                            <h3>自动跳转至 IdP</h3>
+                            <p>若尚未登录，Spring Security 会将认证请求重定向到 NGIAM IdP。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span>03</span>
+                        <div>
+                            <h3>用户完成身份验证</h3>
+                            <p>IdP 验证通过后生成带签名的 SAML Assertion，并通过 HTTP POST 返回 SP。</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span>04</span>
+                        <div>
+                            <h3>SP 校验并建立会话</h3>
+                            <p>应用验证签名和断言内容，建立本地安全上下文并展示用户属性。</p>
+                        </div>
+                    </li>
                 </ol>
+            </section>
+
+            <section class="section-block cta-band">
+                <div>
+                    <p class="section-kicker">Next Step</p>
+                    <h2>先看 Metadata，或直接开始登录验证。</h2>
+                </div>
+                <div class="button-group">
+                    <a href="/saml/metadata" class="btn btn-secondary" target="_blank" rel="noreferrer">查看 Metadata XML</a>
+                    <a href="/user" class="btn btn-primary">进入用户页</a>
+                </div>
             </section>
         </main>
 
-        <footer>
-            <p>&copy; 2026 Jingantech - NGIAM SAML SP Demo</p>
+        <footer class="site-footer">
+            <p>Jingantech NGIAM SAML SP Demo</p>
+            <p>Single Sign-On verification workspace</p>
         </footer>
     </div>
 </body>
